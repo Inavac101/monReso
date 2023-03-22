@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 require('dotenv').config({path: './config/.env'});
 require('./config/db');
-const {checkUser} = require('./middleware/auth.middleware');
+const {checkUser, requireAuth} = require('./middleware/auth.middleware');
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -15,7 +15,9 @@ app.use(cookieParser());
 
 //jwt
 app.get('*', checkUser);
-
+app.get('/jwtid', requireAuth, (_, res) => {
+    res.status(200).send(res.locals.user._id)
+});
 // Routes
 app.use('/api/user', userRoutes);
 
