@@ -8,16 +8,19 @@ module.exports.getAllUsers = async (req, res) => {
     res.status(200).json(users);
 }
 
-module.exports.userInfo =  (req, res) => {
+module.exports.userInfo = async (req, res) => {
     console.log(req.params);
         if (!ObjectId.isValid(req.params.id)){
             return res.status(400).send(`ID unknown : ${req.params.id}`)
         }
-    UserModel.findById(req.params.id, (err, docs) => {
-        if (!err){ res.send(docs)}
-        else {console.log(`ID unknown : ${err}`)};
-    }).select('-password');
-};
+        try {
+          const user = await UserModel.findById(req.params.id).select('-password').exec(); // Use .exec() to return a promise
+          res.send(user);
+      } catch (error) {
+          console.log(`ID unknown : ${error}`);
+          res.status(500).send('Server Error');
+      }
+  };
 
 module.exports.updateUser = async (req, res) =>{
     if (!ObjectId.isValid(req.params.id))

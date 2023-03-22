@@ -1,8 +1,13 @@
+// Import UserModel et jsonwebtoken
+
 const UserModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 
+// Define max token age
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
+
+// function to create JWT token
 const createToken = (id) => {
     return jwt.sign({id}, process.env.TOKEN_SECRET, {
         expiresIn: maxAge
