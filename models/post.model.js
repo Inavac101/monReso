@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Postschema = new mongoose.Schema(
+const PostSchema = new mongoose.Schema(
     {
         posterId: {
             type: String,
@@ -14,12 +14,12 @@ const Postschema = new mongoose.Schema(
         picture: {
             type: String,
         },
-        vidéo: {
+        video: {
             type: String,
         },
         likers: {
             type: [String],
-            requires: true,
+            required: true,
         },
         comments: {
             type: [
@@ -38,4 +38,7 @@ const Postschema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('post',  PostSchema)
+module.exports = mongoose.model('post', PostSchema)
+
+
+
